@@ -1,0 +1,54 @@
+Regresi bekerja dengan cara mencari pola atau hubungan antara variabel bebas (input) dan variabel terikat (output). Secara sederhana, algoritma akan membuat sebuah garis atau fungsi matematika yang paling mendekati persebaran data yang ada.
+langkah-langkahnya yaitu 
+## 1. Persiapan: mengunggah file Data
+from google.colab import drive
+drive.mount('/content/drive')
+
+## 2. Membaca Data dengan Pandas
+setelah file terunggah, gunakan pustaka **Pandas** untuk membacanya
+'''import pandas as pd
+# Membaca file CSV
+df = pd.read_csv('data_siswa.csv')
+# Melihat 5 baris pertama data
+print(df.head())'''
+
+## 3. Tahap permodelan regresi (Scikit-Learn)
+misalkan kita ingin memprediksi **Nilai ujian (y)** berdasarkan **Jam belajar(x)**
+A. Memisahkan Variabel
+'''# Menentukan variabel bebas (X) dan terikat (y)
+X = df[['jam_belajar']] # X Harus dalam bentuk 2D (DataFrame)menggunakan kurung siku ganda
+y = df['nilai_ujian']'''
+
+B. Membagi Data (Training & Testing)
+penting untuk membagi data agar kita bisa menguji keakuratan model pada data yang belum dilihat sebelumnya
+'''from sklearn.model_selection import train_test_split
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)'''
+
+C. Membuat dan Melatih Model
+'''from sklearn.linear_model import LinearRegression
+# Inisialisasi model regresi
+model = LinearRegression()
+# Melatih model dengan data training
+model.fit(X_train, y_train)'''
+
+## 4.Menebak (Prediksi) Nilai y
+'''# Menyiapkan input baru
+jam_baru = np.array([[15]])
+
+# Menebak nilai y
+prediksi = model.predict(jam_baru)
+
+print(f"Jika belajar 15 jam, tebakan nilainya adalah: {prediksi[0]:.2f}")'''
+
+5. Evaluasi dan Visualisasi
+'''# Visualisasi Hasil
+plt.scatter(X_test, y_test, color='blue', label='Data Asli')
+plt.plot(X_test, y_pred, color='red', linewidth=2, label='Garis Regresi')
+plt.xlabel('Jam Belajar')
+plt.ylabel('Nilai Ujian')
+plt.legend()
+plt.show()
+
+# Menampilkan Skor Akurasi (R-squared)
+print(f"Akurasi Model (R^2): {model.score(X_test, y_test)}")'''
